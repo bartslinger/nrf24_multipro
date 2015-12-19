@@ -36,25 +36,25 @@
 // ############ Wiring ################
 #define PPM_pin   2  // PPM in
 //SPI Comm.pins with nRF24L01
-#define MOSI_pin  3  // MOSI - D3
-#define SCK_pin   4  // SCK  - D4
+#define MOSI_pin  11  // MOSI - D3
+#define SCK_pin   13  // SCK  - D4
 #define CE_pin    5  // CE   - D5
-#define MISO_pin  A0 // MISO - A0
-#define CS_pin    A1 // CS   - A1
+#define MISO_pin  12 // MISO - A0
+#define CS_pin    10 // CS   - A1
 
-#define ledPin    13 // LED  - D13
+#define ledPin    6 // LED  - D13
 
 // SPI outputs
-#define MOSI_on PORTD |= _BV(3)  // PD3
-#define MOSI_off PORTD &= ~_BV(3)// PD3
-#define SCK_on PORTD |= _BV(4)   // PD4
-#define SCK_off PORTD &= ~_BV(4) // PD4
+#define MOSI_on PORTB |= _BV(3)  // PB3
+#define MOSI_off PORTB &= ~_BV(3)// PB3
+#define SCK_on PORTB |= _BV(5)   // PB5
+#define SCK_off PORTB &= ~_BV(5) // PB5
 #define CE_on PORTD |= _BV(5)    // PD5
 #define CE_off PORTD &= ~_BV(5)  // PD5
-#define CS_on PORTC |= _BV(1)    // PC1
-#define CS_off PORTC &= ~_BV(1)  // PC1
+#define CS_on PORTB |= _BV(2)    // PB2
+#define CS_off PORTB &= ~_BV(2)  // PB2
 // SPI input
-#define  MISO_on (PINC & _BV(0)) // PC0
+#define  MISO_on (PINB & _BV(4)) // PB4
 
 #define RF_POWER TX_POWER_80mW 
 
