@@ -134,15 +134,18 @@ void setup()
     TCCR1B |= (1 << CS11);  //set timer1 to increment every 1 us @ 8MHz, 0.5 us @16MHz
 
     set_txid(false);
+    current_protocol = PROTO_CX10_BLUE;
 }
 
 void loop()
 {
     uint32_t timeout;
     // reset / rebind
-    if(reset || ppm[AUX8] > PPM_MAX_COMMAND) {
+    if(reset) {
+      //digitalWrite(ledPin, HIGH);
         reset = false;
-        selectProtocol();        
+        current_protocol = PROTO_CX10_BLUE;
+        //selectProtocol();        
         NRF24L01_Reset();
         NRF24L01_Initialize();
         init_protocol();
@@ -242,7 +245,7 @@ void selectProtocol()
         current_protocol = PROTO_CG023;      // EAchine CG023/CG031/3D X4, (todo :ATTOP YD-836/YD-836C) ...
     
     // Aileron right
-    else if(ppm[AILERON] > PPM_MAX_COMMAND)  
+    else if(ppm[AILERON] > PPM_MAX_COMMAND)
         current_protocol = PROTO_CX10_BLUE;  // Cheerson CX10(blue pcb, newer red pcb)/CX10-A/CX11/CX12 ... 
     
     // Aileron left
@@ -255,10 +258,10 @@ void selectProtocol()
     // update eeprom 
     EEPROM.update(ee_PROTOCOL_ID, current_protocol);
     // wait for safe throttle
-    while(ppm[THROTTLE] > PPM_SAFE_THROTTLE) {
+    /*while(ppm[THROTTLE] > PPM_SAFE_THROTTLE) {
         delay(100);
         update_ppm();
-    }
+    }*/
 }
 
 void init_protocol()
@@ -276,6 +279,7 @@ void init_protocol()
         case PROTO_CX10_GREEN:
         case PROTO_CX10_BLUE:
             CX10_init();
+            Serial.println("INitialized");
             CX10_bind();
             break;
         case PROTO_H7:
